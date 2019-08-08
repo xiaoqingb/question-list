@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册页面</title>
+    <link href="assets/css/regist.less" rel="stylesheet/less">
+    <script src="assets/lib/less-3.9.0.js"></script>
+    <script src="assets/lib/jquery-3.4.1.js"></script>
+</head>
+<body>
+    <!-- <img src="jpg\regist.jpg"> -->
+    <main >
+        <div id='regist-frame'>
+                <h1>
+                    用户注册
+                </h1>
+                <form id="register-frame">
+                    <label for="account">邮箱</label>
+                    <input class="input-frame" id="account" type="text" name="account">
+                    
+                    <label for="name">昵称</label>
+                    <input class="input-frame" id="name"  name="name">
+                   
+                    <label for="password">密码</label>
+                    <input class="input-frame" id="password" type="password" name="password">
+                   
+                    <label for="comfirm-pass">确认密码</label>
+                    <input class="input-frame" id="comfirm-pass" type="password" name="comfirm-pass">
+                   <div id="btn-container">
+                       <button id="reset-btn" type="button" >重置</button>
+                       <button id="register-btn" type="submit" >注册</button>
+                   </div>
+                    <h3 id="error-text">必须同时包含一个大写字母，小写字母和数字，且长度大于6，小于20!</h3>
+                </form>
+        </div>
+        <div>
+        <!-- <iframe id="post-frame" name="post-frame" ></iframe> -->
+        </div>
+    </main>
+        <script>
+            // 绑定重置按钮
+            $("#reset-btn").click(function(){
+                $(".input-frame").val("");
+            });
+
+            $("#register-frame").submit(function(e){
+                e.preventDefault();
+                // 验证邮箱格式
+                var a=/[a-zA-Z0-9]{6,20}/.test($("#account").val());
+                if(!a){
+                    // 不符合则输出错误信息
+                    $("#error-text").html("邮箱格式错误！");
+                    return ;
+                }
+
+                // 验证密码格式
+                var a=/[a-z]{1,}/.test($("#password").val());
+                var b=/[A-Z]{1,}/.test($("#password").val());
+                var c=/[0-9]{1,}/.test($("#password").val());
+                var d=/\w{6,20}/.test($("#password").val());
+                console.log(a,b,c,d);
+                if(!a || !b || !c ||!d){
+                    // 不符合则输出错误信息
+                    $("#error-text").html("密码必须同时包含一个大写字母，小写字母和数字，且长度大于6，小于20!");
+                    return ;
+                }
+                // 只有信息无误才能清空输入栏，再进行数据插入
+                $("#error-text").html("");
+                $.ajax({
+                    url:"api/userHandler/regist",
+                    type:"post",
+                    data:{
+                        account:$("#account").val(),
+                        name:$("#name").val(),
+                        password:$("#password").val(),
+                        comfirmPass:$("#comfirm-pass").val(),
+                    },
+                    success:function(response){
+                        // 返回值记得转化为json对象
+                        response= JSON.parse(response);
+                        if(response.code!=="0000"){
+                            $("#error-text").html(response.msg);
+                            return;
+                        }
+                        $("#error-text").html(response.msg);
+                        // 注册成功，倒计时跳转登录页面
+                        setTimeout(function(){
+                            location.href="login.html";
+                        },3000);
+                        
+                         
+                    }
+                });
+            });
+
+    </script>
+</body>
+
+</html>
+
+
+
