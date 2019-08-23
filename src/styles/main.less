@@ -1,0 +1,285 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #ccc;
+  height: 100%;
+  margin: 0;
+  // background-image: url(C:\xampp\htdocs\jpg\question.jpg);
+}
+h2{
+  margin-top: 5px;
+}
+
+#header {
+  opacity: .5;
+  background-color: #e8ffe3;
+  display: flex;
+  flex-direction: row-reverse;
+  z-index: 2;
+
+  #user-btn {
+    color: #d4edff;
+  }
+}
+#error-text-container{
+  height: 20px;
+  width:350px;
+  #error-text{
+    background: #67b168;
+  }
+}
+
+main {
+  height: 670px;
+  width: 720px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 11px;
+
+
+  &::-webkit-scrollbar-track-piece {
+    //滚动条凹槽的颜色，还可以设置边框属性
+    background-color: #cccc;
+  }
+
+  &::-webkit-scrollbar {
+    //滚动条的宽度
+    width: 9px;
+    height: 9px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    //滚动条的设置
+    background-color: #dddddd;
+    background-clip: padding-box;
+    min-height: 28px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #bbb;
+  }
+}
+
+#paging{
+  position: relative;
+  top: -10px;
+  height: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  #turn-to-container{
+    margin-left: 5%;
+    #turn-to{
+      width: 30px;
+
+    }
+  }
+
+}
+
+#question-submit {
+  display: flex;
+  flex-wrap: wrap;
+
+  #anonymous-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  input[name] {
+    height: 35px;
+    width: 89%;
+    border-radius: 5px;
+    border: 1px transparent solid;
+    background-color: rgb(241, 239, 239);
+    outline: none;
+  }
+
+  #submit {
+    height: 35px;
+    width: 60px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background: rgba(192, 181, 146, 0.6);
+    outline: none;
+
+    &:hover {
+      background: rgba(169, 179, 199, 0.9);
+    }
+
+  }
+
+  .check-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    vertical-align: center;
+
+    input[type=checkbox] {
+      background-color: red;
+      width: 20px;
+      height: 20px;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+  }
+}
+
+
+.item {
+  background: #ffffff;
+  color: black;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px 50px 5px 8px;
+  height: auto;
+  border: 1px solid rgb(170, 157, 157);
+  border-radius: 5px;
+  margin-top: 12px;
+  transition-delay: 0.5s ;
+  .username {
+    margin-top: 5px;
+    margin-left: 140px;
+    color: rgb(168, 167, 167);
+    font-size: 12px;
+
+  }
+
+  .question {
+    width: 100%;
+  }
+
+  .time {
+    margin-top: 5px;
+    color: rgb(196, 193, 193);
+    font-size: 12px;
+  }
+
+  .delete-btn {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    border-radius: 25px;
+    right: 20px;
+    top: 13px;
+    color: rgb(216, 128, 128);
+    border: none;
+    background: none;
+    outline: none;
+
+    &:hover {
+      color: rgb(224, 48, 48);
+      background-color: #ccc;
+    }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  main {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 12px;
+    overflow: auto;
+
+    &::-webkit-scrollbar-track-piece {
+      //滚动条凹槽的颜色，还可以设置边框属性
+      background-color: #cccc;
+    }
+
+    &::-webkit-scrollbar {
+      //滚动条的宽度
+      width: 9px;
+      height: 9px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      //滚动条的设置
+      background-color: #dddddd;
+      background-clip: padding-box;
+      min-height: 28px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #bbb;
+    }
+
+  }
+
+  #question-submit {
+
+
+    #anonymous-container {
+      width: 100%;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    input[name] {
+      display: block;
+      height: 35px;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px transparent solid;
+      background-color: rgb(241, 239, 239);
+      outline: none;
+    }
+
+    #submit-container {
+      width: 100%;
+      display: flex;
+      flex-direction: row-reverse;
+
+      #submit {
+        margin-top: 5px;
+        height: 35px;
+        width: 60px;
+        border-radius: 5px;
+        margin-left: 10px;
+        background: rgba(192, 181, 146, 0.6);
+        outline: none;
+        font-size: 12px;
+
+        &:hover {
+          background: rgba(169, 179, 199, 0.9);
+        }
+      }
+    }
+  }
+
+  .check-container {
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    vertical-align: center;
+
+    input[type=checkbox],
+    label {
+      margin: 0;
+    }
+
+    input[type=checkbox] {
+      background-color: red;
+      width: 20px;
+      height: 20px;
+
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+  }
+}
+

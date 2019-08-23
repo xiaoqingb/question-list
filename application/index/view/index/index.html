@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>问题提交页面</title>
+    <link href="__PUBLIC__/static/lib/bootstrap.min.css" rel="stylesheet">
+    <script src="__PUBLIC__/static/lib/bootstrap.min.js"></script>
+    <link href="__PUBLIC__/static/styles/main.css" rel="stylesheet">
+
+</head>
+
+<body>
+<nav id="header">
+    <!-- Split button -->
+    <div id="user-btn" class="btn-group text-right">
+        <button type="button" class="btn btn-danger"><span id="user-name"></span></button>
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a id="logout" href="#">登出</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <div id="submit-form">
+
+        <div id="question-submit">
+            <input id="question-input" type="text" name="question">
+            <div id="submit-container">
+                <button id="submit" type="submit">提交</button>
+            </div>
+            <div id="anonymous-container">
+                <div class="check-container">
+                    <input id="checkbox" type="checkbox" name="checkbox[]">
+                    <label for="checkbox">匿名</label>
+                </div>
+            </div>
+        </div>
+        <div id="error-text-container">
+            <span id="error-text"></span>
+        </div>
+        <h2>问题列表</h2>
+        <div id="question-list">
+        </div>
+    </div>
+</main>
+<nav aria-label=" navigation" id="paging">
+    <ul class="pagination ">
+        <!-- <li id="previous">
+             <a  href="#" aria-label="Previous">
+                 <span aria-hidden="true">&laquo;</span>
+             </a>
+         </li>
+         <li>
+             <a href="#" aria-label="Next">
+                 <span aria-hidden="true">&raquo;</span>
+             </a>
+         </li>-->
+    </ul>
+    <div id="turn-to-container">
+        <label for="turn-to">跳转到第</label>
+        <input id="turn-to" type="text">页
+    </div>
+</nav>
+<script src="__PUBLIC__/static/js/bundle.js"></script>
+</body>
+
+</html>
+
+
+<!-- // 前后端的数据交互
+// 前后端分离
+// form表单提交 后端echo返回数据   - level 0
+// 利用js的ajax提交 后端echo html  - level 1
+// 前端页面完全无php标签，后端还是echo html - level 2
+// 前端页面完全无php标签，后端完全没有 html 标签 - level 3 -->
