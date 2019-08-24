@@ -72,13 +72,13 @@ class User extends Auth
         Cookie::set('user', $user->id . "::" . $user->name, 7 * 24 * 60 * 60, '/');
         return json_encode(
             [
-                'code' => '0001',
-                'msg' => '请求的参数有误'
+                'code' => '0000',
+                'msg' => '登录成功'
             ]
         );
     }
 
-    public function register()
+    public function regist()
     {
         if (!input('?post.email')) {
             return json_encode(
@@ -90,12 +90,13 @@ class User extends Auth
         }
         $email = input('post.email');
         $password = input('post.password');
-        $nickName = input('post.nickName');
+        $name = input('post.name');
 
         $user = new UserModel();
         //判断用户是否存在
         $result = $user->where('email', $email)->find();
-        if (!result !== null) {
+
+        if (!$result === null) {
             return json_encode(
                 [
                     'code' => '0001',
@@ -106,7 +107,8 @@ class User extends Auth
         //插入用户
         $user->email = $email;
         $user->password = md5($password);
-        $user->name = $nickName;
+        $user->name = $name;
+        $user->right=0;
         $result = $user->save();
         if (!$result) {
             return json_encode(

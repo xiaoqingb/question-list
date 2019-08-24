@@ -1,15 +1,18 @@
 import $ from "jquery";
-
+import 'bootstrap';
+window.jQuery=$;
+jQuery=$;
+window.$=window.jQuery;
 /*当前页面作为全局变量*/
-var currentPage = 1;
+let currentPage = 1;
 // 提交问题
 $("#submit").click((e)=>{
     e.preventDefault();
     $.ajax({
-        url: "/question-list/public/index/question/createQuestion",
+        url: "/question-list/public/index/Question/createQuestion",
         type: "post",
         data: {
-            question: $(this).parent().prev().val(),
+            question: $("#question-input").val(),
             isAnonymous: $("input[type='checkbox']").is(":checked"),
         },
         success:  (response)=>{
@@ -18,10 +21,9 @@ $("#submit").click((e)=>{
                 $("#error-text").html(response.msg);
                 return;
             }
-            // // renderQuestionList(response.data);
             // // 提交完要清空输入栏
             getQuestionList(currentPage);
-            /* $("#question-input").val("");*/
+            $("#question-input").val("");
             bindDeleteListener(true);
         },
         error: ()=>{
@@ -33,15 +35,15 @@ $("#submit").click((e)=>{
 // 绑定删除单击事件
 function bindDeleteListener(onlyLast) {
     onlyLast = onlyLast === undefined ? false : onlyLast;
-    $deleteBtn = $(".delete-btn");
+    let $deleteBtn = $(".delete-btn");
     if (onlyLast) {
-        $deleteBtn = $deleteBtn.last();
+         $deleteBtn = $deleteBtn.last();
     }
     $deleteBtn.click(function () {
         $("#error-text").html("");
-        /*var $questionList = $(this).parent();*/
+        /*let $questionList = $(this).parent();*/
         $.ajax({
-            url: "/zero-question-list-tp/public/index/question/deleteQuestion",
+            url: "/question-list/public/index/Question/deleteQuestion",
             type: "post",
             data: {
                 id: $(this).data("id"),
@@ -65,7 +67,7 @@ bindDeleteListener();
 // 登出
 $("#logout").click(()=>{
     $.ajax({
-        url: "/zero-question-list-tp/public/index/user/logout",
+        url: "/question-list/public/index/user/logout",
         type: "post",
         success:  (response)=>{
             location.href = "login.html";
@@ -76,14 +78,14 @@ $("#logout").click(()=>{
 /*在跳转input处按下回车跳转*/
 $('#turn-to').bind('keydown',  (event)=>{
     if (event.keyCode == "13") {
-        getQuestionList($(this).data("page"));
+        getQuestionList($("#turn-to").data("page"));
     }
 });
 
 function getQuestionList(page){
     page = page === undefined?1:page;
     $.ajax({
-        url: "/zero-question-list-tp/public/index/question/getAllQuestions",
+        url: "/question-list/public/index/question/getAllQuestions",
         type: "get",
         data:{
             page:page
@@ -107,12 +109,13 @@ function renderQuestionList(data) {
     // 提前清空
     $("#question-list").html("");
     // 遍历输出问题列表
-    for (var index in data) {
-        var question = data[index];
+    for (let index in data) {
+        let question = data[index];
         // 输出问题
+        console.log(question.name);
         $("#question-list").append('\
                         <div class="item">\
-                        <div class="question">' + question.question + '</div>\
+                        <div class="question">' + question.content + '</div>\
                         <div class="time">' + question.time + '&nbsp;&nbsp;&nbsp;&nbsp; By ' + question.name + '</div>\
                         <button type="submit" class="delete-btn"  data-id=' + question.id + '>X</button>\
                         </div>\
@@ -126,7 +129,7 @@ function renderQuestionList(data) {
 // 窗口加载后获取昵称
 $(window).on("load",  ()=>{
     $.ajax({
-        url: "/zero-question-list-tp/public/index/user/getName",
+        url: "/question-list/public/index/User/getName",
         type: "get",
         success:  (response)=>{
             response = JSON.parse(response);
@@ -143,44 +146,45 @@ $(window).on("load",  ()=>{
             getQuestionList(currentPage);
         }
     });
+    console.log("sdasdasd");
 })
 
 
 
 function generatePaginationNum(currentPage,pageCount,paginationBtnCount) {
     paginationBtnCount=paginationBtnCount === undefined ? 5: paginationBtnCount;
-    var result=[];
+    let result=[];
     //当页面数目小于按钮数目的时候
     if(paginationBtnCount>=pageCount){
-        for(var i=0;i<pageCount;i++){
+        for(let i=0;i<pageCount;i++){
             result.push(i+1);
         }
         return result;
     }
     //当前页之前按钮数目
-    var btnCountBefore= Math.floor((paginationBtnCount-1)/2);
+    let btnCountBefore= Math.floor((paginationBtnCount-1)/2);
     //当前页之后按钮数目
-    var btnCountAfter= Math.ceil((paginationBtnCount-1)/2);
+    let btnCountAfter= Math.ceil((paginationBtnCount-1)/2);
 
-    for(var i=currentPage-btnCountBefore;i<paginationBtnCount;i++){
+    for(let i=currentPage-btnCountBefore;i<paginationBtnCount;i++){
         result.push(i);
     }
     result.push(currentPage);
-    for(var i=currentPage+1;i<currentPage+btnCountAfter;i++){
+    for(let i=currentPage+1;i<currentPage+btnCountAfter;i++){
         result.push(i);
     }
 
     //如果数组第一个数小于一,则往右滚动
     if(result[0]<1){
-        var offset=1-result[0];
-        for(var i=0;i<paginationBtnCount;i++){
+        let offset=1-result[0];
+        for(let i=0;i<paginationBtnCount;i++){
             result[i]+=offset;
         }
     }
     //如果数组最后一个数大于总页面个数，则往左滚动
     if(result[paginationBtnCount-1]>pageCount){
-        var offset=result[paginationBtnCount-1]-pageCount;
-        for(var i=0;i<paginationBtnCount;i++){
+        let offset=result[paginationBtnCount-1]-pageCount;
+        for(let i=0;i<paginationBtnCount;i++){
             result[i]-=offset;
         }
     }
@@ -193,7 +197,7 @@ function generatePaginationNum(currentPage,pageCount,paginationBtnCount) {
 
 function generatePaginationBtn(currentPage,pageCount){
 
-    var paginationNumArr=generatePaginationNum(currentPage,pageCount);
+    let paginationNumArr=generatePaginationNum(currentPage,pageCount);
     $(".pagination").html('');
     $(".pagination").append('<li id="previous">\n' +
         '             <a  href="#" aria-label="Previous">\n' +
@@ -201,7 +205,7 @@ function generatePaginationBtn(currentPage,pageCount){
         '             </a>\n' +
         '         </li>');
 
-    for (var i = 0; i <paginationNumArr.length; i++) {
+    for (let i = 0; i <paginationNumArr.length; i++) {
         /*给每一个跳转按钮赋上id还有内容*/
         $(".pagination").append('<li class="pagination-num-btn" data-page="'+paginationNumArr[i]+'"><a href="#">'+paginationNumArr[i]+'</a></li>\
             ');

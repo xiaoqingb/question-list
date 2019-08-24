@@ -47,32 +47,32 @@
 
             $("#register-frame").submit(function(e){
                 e.preventDefault();
-                // 验证邮箱格式
-                var a=/[a-zA-Z0-9]{6,20}/.test($("#account").val());
-                if(!a){
-                    // 不符合则输出错误信息
-                    $("#error-text").html("邮箱格式错误！");
-                    return ;
-                }
-
-                // 验证密码格式
-                var a=/[a-z]{1,}/.test($("#password").val());
-                var b=/[A-Z]{1,}/.test($("#password").val());
-                var c=/[0-9]{1,}/.test($("#password").val());
-                var d=/\w{6,20}/.test($("#password").val());
-                console.log(a,b,c,d);
-                if(!a || !b || !c ||!d){
-                    // 不符合则输出错误信息
-                    $("#error-text").html("密码必须同时包含一个大写字母，小写字母和数字，且长度大于6，小于20!");
-                    return ;
-                }
+                // // 验证邮箱格式
+                // var a=/[a-zA-Z0-9]{6,20}/.test($("#account").val());
+                // if(!a){
+                //     // 不符合则输出错误信息
+                //     $("#error-text").html("邮箱格式错误！");
+                //     return ;
+                // }
+                //
+                // // 验证密码格式
+                // var a=/[a-z]{1,}/.test($("#password").val());
+                // var b=/[A-Z]{1,}/.test($("#password").val());
+                // var c=/[0-9]{1,}/.test($("#password").val());
+                // var d=/\w{6,20}/.test($("#password").val());
+                // console.log(a,b,c,d);
+                // if(!a || !b || !c ||!d){
+                //     // 不符合则输出错误信息
+                //     $("#error-text").html("密码必须同时包含一个大写字母，小写字母和数字，且长度大于6，小于20!");
+                //     return ;
+                // }
                 // 只有信息无误才能清空输入栏，再进行数据插入
                 $("#error-text").html("");
                 $.ajax({
-                    url:"api/userHandler/regist",
+                    url:"__PUBLIC__/index/user/regist",
                     type:"post",
                     data:{
-                        account:$("#account").val(),
+                        email:$("#account").val(),
                         name:$("#name").val(),
                         password:$("#password").val(),
                         comfirmPass:$("#comfirm-pass").val(),

@@ -1,8 +1,7 @@
 <?php
-
 namespace app\index\controller;
 use think\Session;
-use tink\Cookie;
+use think\Cookie;
 use think\Controller;
 
 class Auth extends Controller{

@@ -4,6 +4,7 @@ namespace app\index\controller;
 use app\index\model\Question as QuestionModel;
 use think\Session;
 use think\Cookie;
+use think\Db;
 use think\Validate;
 
 class Question extends Auth{
@@ -19,7 +20,6 @@ class Question extends Auth{
         //step 1.验证用户的输入
         $questionContent= input('post.question','');
         $isAnonymous= input('post.isAnoymous','false');
-
         $rule =[
             'question'=>'require',
         ];
@@ -132,8 +132,53 @@ class Question extends Auth{
 
     // 获取问题
     public function getAllQuestions(){
-        $result = $this->query('select * from `question-list`');
-        return $result;
+        $page = input("get.page","1");
+        //step 1.格式化数据
+        $page=(int) $page;
+
+        //step 2. 计算分页
+        $question =new QuestionModel();
+        $pageSize=7;
+        $totalCount=$question->count();
+        $pageCount=ceil($totalCount/$pageSize);
+
+        //step 3. 获取分页数据
+        $result=$question->page($page,$pageSize)->select();
+        if(!$result){
+            return json_encode(
+                [
+                    'code'=>'0002',
+                    'msg'=>'获取问题时发生了一些问题'
+                ]
+            );
+        }
+
+        //step 4.获取每一条问题到底是谁发起的
+        $questions=[];
+        foreach($result as $q){
+            $user = $q->user;
+            if(!$user){
+                $userName='匿名';
+            }else{
+                $userName = $user->name;
+            }
+            array_push($questions,[
+                "content"=>$q->content,
+                "time"=>$q->time,
+                "id"=>$q->id,
+                "name"=>$userName
+            ]);
+        }
+        return json_encode(
+            [
+                'code' => '0000',
+                'msg' => '获取成功',
+                "data" => [
+                    'pageCount' => $pageCount,
+                    'questions' => $questions
+                ]
+            ]
+        );
     }
 
     public function getQuestionMasterId($id){
